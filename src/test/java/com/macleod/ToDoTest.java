@@ -12,7 +12,7 @@ public class ToDoTest {
     static Browser browser;
     BrowserContext context;
     Page page;
-    Locator addItem, checkedBox;
+    Locator addItem, itemsLeft, checkedBox;
 
     @Test
     void shouldAddItemToListAndThenCheckBoxToMarkAsComplete() {
@@ -30,7 +30,8 @@ public class ToDoTest {
         addItem.press("Enter");
 
         //Confirm item was added:
-        assertThat(page.getByText("1 item left")).equals(true);
+        itemsLeft = page.locator("span.todo-count");
+        assertThat(itemsLeft).hasText("1 item left");
         page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("afterMilk.png")));
         System.out.println("It appears to have been added to the list...");
 
@@ -43,7 +44,7 @@ public class ToDoTest {
 
         //Confirm item was checked off:
         System.out.println("Final test about to run...");
-        assertThat(page.getByText("0 items left")).equals(true);
+        assertThat(itemsLeft).hasText("0 items left");
         System.out.println("Final test finished.:)");
 
     }
