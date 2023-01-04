@@ -37,6 +37,7 @@ public class ToDoTest {
 
 
         System.out.println("I'll now tick the checkbox...");
+
         //Grab and check checkbox, then confirm with screenshot:
         checkedBox = page.locator("input.toggle");
         checkedBox.check();

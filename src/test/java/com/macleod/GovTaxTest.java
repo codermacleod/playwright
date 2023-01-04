@@ -6,25 +6,28 @@ import org.junit.jupiter.api.*;
 
 import java.nio.file.Paths;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 public class GovTaxTest {
     static Playwright playwright;
     static Browser browser;
     BrowserContext context;
     Page page;
-    Locator cookies, searchText, taxVehicle;
+    Locator searchText, taxVehicle;
 
     @Test
     void shouldCheckCarTax(){
+        var searchPage = new GovSearchPage(page);
         //Start Website:
-        page.navigate("https://www.gov.uk/");
-        page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("beforeCookieReject.png")));
-        
-        //Reject Cookies:
-        cookies = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Reject additional cookies"));
-        if (cookies != null){
-            cookies.click();
-            System.out.println("rejected");
-        }
+        searchPage.navigate();
+        page.pause();
+        //Accept or Reject Cookies:
+        searchPage.acceptRejectCookies("reject").click();
+
+        //
+        searchPage.searchFor("car tax");
+        assertThat(searchPage.getSearchResultsHeading()).hasText("Search all content");
+
         //Search:
         searchText = page.getByRole(AriaRole.SEARCHBOX, new Page.GetByRoleOptions().setName("Search"));
         searchText.click();
@@ -39,7 +42,8 @@ public class GovTaxTest {
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                .setHeadless(false));
     }
     @AfterAll
     static void closeBrowser() {
