@@ -13,12 +13,12 @@ public class ChangeYourLifeTest {
     static Browser browser;
     BrowserContext context;
     Page page;
-
     Locator codeOfConduct, faqs, searchTextBox, noBadger;
     @Test
     void shouldCheckCodeOfConductAndFAQWorks(){
         //Setup
         page.navigate("https://makers.tech/");
+//        page.pause();
 
         // Expect page to arrive at the URL
         assertThat(page).hasURL("https://makers.tech/");
@@ -27,7 +27,7 @@ public class ChangeYourLifeTest {
         assertThat(page).hasTitle(Pattern.compile("Change Your Life"));
 
         //1. Locate and hold the link (Code of Conduct), and
-        //2. Expect there is a link on the page titled "Code of Conduct.
+        //2. Expect there is a link on the page titled "Code of Conduct".
         codeOfConduct = page.locator("text=Code of Conduct");
         assertThat(codeOfConduct).hasText("Code of Conduct");
 
@@ -69,28 +69,14 @@ public class ChangeYourLifeTest {
 
         noBadger = page.locator("text=No results for badger");
         assertThat(noBadger).hasText("No results for badger");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     @BeforeAll
     static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                .setHeadless(false)
+                .setSlowMo(2000));
     }
 
     @AfterAll
@@ -101,6 +87,7 @@ public class ChangeYourLifeTest {
     @BeforeEach
     void createContextAndPage() {
         context = browser.newContext();
+//        context = browser.newContext(new Browser.NewContextOptions().setRecordVideoDir(Paths.get("src/test/resources/videos")));
         page = context.newPage();
     }
 

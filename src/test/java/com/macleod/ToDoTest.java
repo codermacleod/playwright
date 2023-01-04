@@ -69,8 +69,4 @@ public class ToDoTest {
     void closeContext() {
         context.close();
     }
-
-    // in TodoTest.java
-
-
 }
