@@ -25,9 +25,9 @@ public class GovSearchPage {
     public Locator acceptRejectCookies(String acceptReject){
         if (cookieBannerReject != null){
             acceptReject.toLowerCase();
-            if (acceptReject == "accept")
+            if (acceptReject.equals("accept") )
                 return cookieBannerAccept;
-            else if (acceptReject == "reject") {
+            else if (acceptReject.equals("reject") ) {
                 return cookieBannerReject;
             }
         }
