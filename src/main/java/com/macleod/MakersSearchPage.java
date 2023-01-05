@@ -6,9 +6,9 @@ import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 
 public class MakersSearchPage {
-    private Page page;
-    private Locator searchBox;
-    private Locator searchResultsHeading;
+    private final Page page;
+    private final Locator searchBox;
+    private final Locator searchResultsHeading;
 
     public MakersSearchPage(Page page) {
         this.page = page;
