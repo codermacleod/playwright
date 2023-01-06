@@ -12,7 +12,7 @@ public class ToDoTest {
     static Browser browser;
     BrowserContext context;
     Page page;
-    Locator addItem, itemsLeft, checkedBox;
+    Locator addItem, itemsLeft, checkedBox, listItem;
 
     @Test
     void shouldAddItemToListAndThenCheckBoxToMarkAsComplete() {
@@ -22,12 +22,17 @@ public class ToDoTest {
         //Check page title:
         assertThat(page).hasTitle("React • TodoMVC");
 
+
         //Add item and assert it has been added to list:
         addItem = page.getByPlaceholder("What needs to be done?");
         addItem.click();
         page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("beforeMilk.png")));
         addItem.fill("Buy some milk");
         addItem.press("Enter");
+
+        //Confirm item was added in list of to-do items:
+        listItem = page.locator("ul.todo-list>li:has-text('Buy some milk')");
+        assertThat(listItem).hasText("Buy some milk");
 
         //Confirm item was added:
         itemsLeft = page.locator("span.todo-count");

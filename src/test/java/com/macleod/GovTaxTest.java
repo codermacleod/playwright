@@ -25,6 +25,7 @@ public class GovTaxTest {
         searchPage.searchFor("car tax");
         assertThat(searchPage.getSearchResultsHeading()).hasText("Search all content");
 
+        
         //1. Click on link and on next page...
         //2. ...Expect Heading to be 'Tax your vehicle without a V11 reminder'.
         searchPage.getRequiredLink().click();
